@@ -3,7 +3,7 @@ package course2.algorithm;
 import java.util.Arrays;
 import java.util.Objects;
 
-public class StringListImpl implements StringList{
+public class StringListImpl implements StringList {
     private String[] storage;
     private int size;
 
@@ -24,11 +24,10 @@ public class StringListImpl implements StringList{
     public String add(int index, String item) {
         validateIndex(index);
         System.arraycopy(storage, index, storage, index + 1, size - index);
-            storage[index] = item;
-            size++;
-            return item;
+        storage[index] = item;
+        size++;
+        return item;
     }
-
 
 
     @Override
@@ -40,14 +39,10 @@ public class StringListImpl implements StringList{
 
     @Override
     public String remove(String item) {
-        for (int i = 0; i < storage.length; i++) {
-            if (storage[i].equals(item)) {
-                if (i != storage.length - 1) {
-                    System.arraycopy(storage, i + 1, storage, i, size - 1);
-                }
-                size--;
-                return item;
-            }
+        if (indexOf(item) != -1) {
+            System.arraycopy(storage, indexOf(item) + 1, storage, indexOf(item), size - 1);
+            size--;
+            return item;
         }
         throw new NotFoundException();
     }
@@ -66,9 +61,7 @@ public class StringListImpl implements StringList{
 
     @Override
     public boolean contains(String item) {
-        if (indexOf(item) == -1) {
-            return false;
-        } else return true;
+        return indexOf(item) != -1;
     }
 
     @Override
@@ -99,7 +92,7 @@ public class StringListImpl implements StringList{
 
     @Override
     public boolean equals(StringList otherList) {
-        return Arrays.stream(storage).toArray().equals(otherList.toArray());
+        return Arrays.equals(storage, otherList.toArray());
     }
 
     @Override
